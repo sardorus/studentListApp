@@ -1,0 +1,108 @@
+How to connect to Database
+1. Copy properties src/main/resources/application.properties:
+    spring.datasource.url=jdbc:postgresql://localhost:5432/student
+    spring.datasource.username=
+    spring.datasource.password=
+    spring.jpa.hibernate.ddl-auto=create-drop
+    spring.jpa.show-sql=true
+    spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+    spring.jpa.properties.hibernate.format_sql=true
+
+2. Download PostgreSql from https://postgresapp.com/
+3. Initialize Server
+4. Commands:
+    psql - connects to database
+    \l - shows all databases
+    \du - shows all the roles
+    CREATE DATABASE student - creates new database
+    GRANT ALL PRIVILEGES ON DATABASE "student" TO postgres;
+    GRANT ALL PRIVILEGES ON DATABASE "student" TO sardorshukhratov;
+    \c student - connect to student database (connect)
+    \d - show the relation (describe)
+    \d student
+    student=# \d student
+                          Table "public.student"
+     Column |          Type          | Collation | Nullable | Default
+    --------+------------------------+-----------+----------+---------
+     age    | integer                |           |          |
+     dob    | date                   |           |          |
+     id     | bigint                 |           | not null |
+     email  | character varying(255) |           |          |
+     name   | character varying(255) |           |          |
+    Indexes:
+        "student_pkey" PRIMARY KEY, btree (id)
+
+    \c student
+    SELECT * FROM student;
+
+
+1. `@Entity`: This is an annotation provided by the Hibernate framework,
+ which is often used with JPA (Java Persistence API).
+ It marks the `Student` class as an entity, indicating that it should be mapped to a database table.
+ Essentially, this tells Hibernate to treat instances of the `Student` class as records in a database table.
+
+2. `@Table`: This annotation specifies the details of the database table that the `Student` entity will be mapped to.
+ In this code snippet, there are no specific attributes provided, which means that the table name
+ will be inferred from the class name (in this case, "Student").
+
+3. `public class Student`: This defines the `Student` class,
+which is a representation of a student entity that will be stored in the database.
+
+4. `@Id`: This annotation marks the `id` field as the primary key of the `Student` entity.
+The primary key is a unique identifier for each record in the database table,
+and it's essential for efficient database operations and data retrieval.
+
+5. `@SequenceGenerator`: This annotation is used to define a sequence generator for the primary key field.
+In this code, the sequence generator is named "student_sequence,"
+and it is used to generate unique values for the `id` field. The `sequenceName` specifies the name
+of the database sequence used to generate the values.
+The `allocationSize` defines how many values will be pre-allocated by the sequence.
+
+6. `@GeneratedValue`: This annotation specifies how the primary key values are generated.
+In this case, it uses a sequence generator named "student_sequence" to generate values.
+The `strategy` is set to `GenerationType.SEQUENCE`,
+indicating that the primary key values are generated using a database sequence.
+The `generator` attribute specifies the name of the sequence generator to use,
+which matches the name defined in `@SequenceGenerator`.
+
+So, in summary, this code is defining a `Student` entity for a Spring Boot application
+that will be mapped to a database table. It specifies that the primary
+key (`id`) should be generated using a database sequence named "student_sequence."
+This is a common setup for generating unique identifiers for database records in Java-based applications.
+
+
+==================================================== STRUCTURE =========================================================
+
+1. BasicSpringProjectApplication @SpringBootApplication
+                                |
+                                |
+                                |
+                                StudentController @RestController
+                                                |
+                                                |
+                                                |
+                                                StudentService @Service
+                                                              |
+                                                              |
+                                                              |
+                                                              StudentRepository @Repository
+                                                                              |
+                                                                              |
+                                                                              |
+                                                                              StudentConfig @Configuration @Bean
+                                                                                           |
+                                                                                           |
+                                                                                           |
+                                                                                           Student @Entity @Table
+
+
+
+
+==================================================== How to create .jar =========================================================
+1. Open Maven -> Lifecycle -> Run clean
+2. Run install
+3. Open terminal cd target
+4. Start application: java -jar basicSpringProject-0.0.1-SNAPSHOT.jar --server.port=8081
+4. Shutdown application: curl -X POST http://localhost:8081/actuator/shutdown (or just control + C)
+
+
