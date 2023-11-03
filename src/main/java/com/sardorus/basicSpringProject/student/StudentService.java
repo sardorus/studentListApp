@@ -69,4 +69,12 @@ public class StudentService {
 
 
     }
+
+    public Student getStudentById(Long studentId) {
+        Optional<Student> studentOptional = studentRepository.findById(studentId);
+        if (!studentOptional.isPresent()){
+            throw new IllegalStateException("There is no student with ID: "+studentId);
+        }
+        return studentOptional.get();
+    }
 }
