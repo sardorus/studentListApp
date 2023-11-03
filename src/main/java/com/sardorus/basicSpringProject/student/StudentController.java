@@ -2,6 +2,8 @@ package com.sardorus.basicSpringProject.student;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -9,7 +11,7 @@ import java.time.Month;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/student")
+@RequestMapping(path = "/student")
 public class StudentController {
 
     private final StudentService studentService;
@@ -19,22 +21,22 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping
+    @GetMapping(path = "/getAllStudents")
     public List<Student> getStudents(){
         return studentService.getStudents();
     }
 
-    @PostMapping
+    @PostMapping(path = "/register")
     public void registerNewStudent(@RequestBody Student student){
         studentService.addNewStudent(student);
     }
 
-    @DeleteMapping(path = "{studentId}")
+    @DeleteMapping(path = "/delete/{studentId}")
     public void deleteStudent(@PathVariable("studentId") Long id){
         studentService.deleteStudent(id);
     }
 
-    @PutMapping(path = "{studentId}")
+    @PutMapping(path = "/edit/{studentId}")
     public void updateStudent(
             @PathVariable("studentId") Long studentId,
             @RequestParam(required = false) String name,
