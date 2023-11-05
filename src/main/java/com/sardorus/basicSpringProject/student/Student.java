@@ -1,6 +1,16 @@
 package com.sardorus.basicSpringProject.student;
 
+
 import jakarta.persistence.*;
+
+
+import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.annotation.*;
+
 
 import java.time.LocalDate;
 import java.time.Period;

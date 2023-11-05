@@ -1,16 +1,18 @@
 package com.sardorus.basicSpringProject.student;
-
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping(path = "/student")
 public class StudentController {
 
@@ -22,31 +24,36 @@ public class StudentController {
     }
 
     @GetMapping(path = "/getAllStudents")
-    public List<Student> getStudents(){
-        return studentService.getStudents();
+    public String getStudents(Model model){
+        model.addAttribute("studentList", studentService.getStudents());
+        return "students";
     }
 
     @GetMapping(path = "/{studentId}")
-    public Student getStudentById(@PathVariable("studentId") Long id){
-        return studentService.getStudentById(id);
+    public String getStudentById(Model model, @PathVariable("studentId") Long id){
+        model.addAttribute("studentList", studentService.getStudentById(id));
+        return "students";
     }
 
     @PostMapping(path = "/register")
-    public void registerNewStudent(@RequestBody Student student){
+    public String registerNewStudent(@RequestBody Student student){
         studentService.addNewStudent(student);
+        return "students";
     }
 
     @DeleteMapping(path = "/delete/{studentId}")
-    public void deleteStudent(@PathVariable("studentId") Long id){
+    public String deleteStudent(@PathVariable("studentId") Long id){
         studentService.deleteStudent(id);
+        return "students";
     }
 
     @PutMapping(path = "/edit/{studentId}")
-    public void updateStudent(
+    public String updateStudent(
             @PathVariable("studentId") Long studentId,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String email){
         studentService.updateStudent(studentId, name, email);
+        return "students";
     }
 
 }
