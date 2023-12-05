@@ -1,8 +1,8 @@
 package com.sardorus.basicSpringProject.student;
 
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -68,5 +68,13 @@ public class StudentService {
         }
 
 
+    }
+
+    public Student getStudentById(Long studentId) {
+        Optional<Student> studentOptional = studentRepository.findById(studentId);
+        if (!studentOptional.isPresent()){
+            throw new IllegalStateException("There is no student with ID: "+studentId);
+        }
+        return studentOptional.get();
     }
 }

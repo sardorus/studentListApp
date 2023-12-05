@@ -1,15 +1,19 @@
 package com.sardorus.basicSpringProject.student;
-
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
-@RestController
-@RequestMapping(path = "api/v1/student")
+@Controller
+@RequestMapping(path = "/student")
 public class StudentController {
 
     private final StudentService studentService;
@@ -19,27 +23,37 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping
-    public List<Student> getStudents(){
-        return studentService.getStudents();
+    @GetMapping(path = "/getAllStudents")
+    public String getStudents(Model model){
+        model.addAttribute("studentList", studentService.getStudents());
+        return "students";
     }
 
-    @PostMapping
-    public void registerNewStudent(@RequestBody Student student){
+    @GetMapping(path = "/{studentId}")
+    public String getStudentById(Model model, @PathVariable("studentId") Long id){
+        model.addAttribute("studentList", studentService.getStudentById(id));
+        return "students";
+    }
+
+    @PostMapping(path = "/register")
+    public String registerNewStudent(@RequestBody Student student){
         studentService.addNewStudent(student);
+        return "students";
     }
 
-    @DeleteMapping(path = "{studentId}")
-    public void deleteStudent(@PathVariable("studentId") Long id){
+    @DeleteMapping(path = "/delete/{studentId}")
+    public String deleteStudent(@PathVariable("studentId") Long id){
         studentService.deleteStudent(id);
+        return "students";
     }
 
-    @PutMapping(path = "{studentId}")
-    public void updateStudent(
+    @PutMapping(path = "/edit/{studentId}")
+    public String updateStudent(
             @PathVariable("studentId") Long studentId,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String email){
         studentService.updateStudent(studentId, name, email);
+        return "students";
     }
 
 }
