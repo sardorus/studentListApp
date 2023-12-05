@@ -47,6 +47,7 @@
     </div>
     <div>
         <table class="table table-hover">
+
             <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -74,6 +75,7 @@
                         <button th:attr="data-student-id=${student.getId()}" type="button" class="btn btn-success updateStudentButton" onclick="updateStudent(this)" style="display:none;">Update</button>
                         <button th:attr="data-student-id=${student.getId()}" type="button" class="btn btn-danger deleteStudentButton" onclick="deleteStudent(this)">Delete</button>
                     </td>
+
                 </tr>
             </tbody>
         </table>
