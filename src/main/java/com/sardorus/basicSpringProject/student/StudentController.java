@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping(path = "/student")
 public class StudentController {
 
