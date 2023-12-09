@@ -88,6 +88,13 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.11.0</version> <!-- Update to the latest compatible version -->
 			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.sardorus.basicSpringProject.BasicSpringProjectApplication</mainClass>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
